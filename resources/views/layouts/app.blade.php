@@ -9,8 +9,6 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -18,9 +16,15 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel=icon href=/favicon.ico> <title>frontend</title>
+    <meta charset=utf-8>
+    <meta http-equiv=X-UA-Compatible content="IE=edge">
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <link href=/js/about.js rel=prefetch>
+    <link href=/js/chunk-vendors.js rel=preload as=script>
 </head>
 <body>
-    <div id="app">
+    <div id="app-server">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -74,5 +78,8 @@
             @yield('content')
         </main>
     </div>
+    <script src=/js/chunk-vendors.js> </script>
+     <!-- Scripts -->
+     <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>

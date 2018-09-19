@@ -12,21 +12,14 @@
 |
 */
 
-Route::get('/', function () {
-    dump("hello world");
-    return view('welcome');
-})->middleware('verified');
 
 Route::get('/about', function () {
     $users = User::all();
-    dump($users->toArray());
     return view('welcome');
 })->middleware('verified');
 
-Route::post('/contact', function () {
-    dump(request()->all());
-});
+Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes(['verify' => true]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/{any}', 'SpaController@index')->middleware('verified')->where('any', '.*');
