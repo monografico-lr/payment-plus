@@ -17,7 +17,7 @@ class CreatePagosTable extends Migration
             $table->increments('id');
             $table->integer('id_contrato');
             $table->integer('id_cliente');
-            $table->integer('id_empleado');
+            $table->integer('id_usuario');
             $table->integer('id_servicio');
             $table->integer('id_precio')->nullable();
             $table->integer('id_extra')->nullable();
