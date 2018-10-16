@@ -23,6 +23,8 @@ class CreateAveriassTable extends Migration
             $table->char('tecnico', 100);
             $table->softDeletes();
             $table->timestamps();
+            $table->foreign('id_cliente')->references('id')->on('clientes');
+            $table->foreign('id_contrato')->references('id')->on('constratos');
         });
     }
 
