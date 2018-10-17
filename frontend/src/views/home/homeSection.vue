@@ -2,7 +2,7 @@
 .container-fluid#home
   section#home-section
     .row.welcome-screen
-      .col-md-8.col-xs-12.main-card
+      .col-md-7.col-xs-12.main-card
           .row
               .company-data
                   img.company-logo(:src="logo", alt="company-logo", style="width: 170px")
@@ -16,6 +16,28 @@
                           p.day {{ date.day }}
                           p.month-year {{ date.monthYear }}
                           span.dayweek {{ date.dayWeek }}
+      HomeDetailCards(:pages="['proximos pagos', 'averias', 'otras', 'final']")
+
+    .row.home-options-container
+      .col-md-7.hidden-xs.shortcuts-container
+          .col-sm-3.shortcut#caller-new-client(data-toggle="modal", data-target="#client-modal")
+              i.material-icons person_add
+              p.section-title Nuevo Cliente
+
+          .col-sm-3.shortcut(data-toggle="modal", @click="sendTo('/nuevo_contrato')")
+              i.material-icons library_books
+              p.section-title Nuevo Contrato
+
+          .col-sm-3.shortcut(data-toggle="modal", data-target="#search-client-modal")
+              i.material-icons monetization_on
+              p.section-title Registrar Pago
+          .col-sm-3.shortcut#desk-cash-caller(@click="sendTo('/cierre')")
+              i.material-icons lock_open
+              p.section-title Cerrar Caja
+
+      .col-md-4.clock-card
+          h3.card-title.t-center Hora
+          h4.hour.h3-4.t-center {{ date.hour }}
 
 </template>
 
