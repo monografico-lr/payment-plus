@@ -1,0 +1,206 @@
+.reports
+  background: #fafafa
+  position: initial;
+  margin-top: -20px;
+  min-height: 100%;
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+.report-card
+  height: 500px
+  box-shadow: 2px 2px 2px 2px transparentize(#555,.9)
+  background: #fff
+  border: 1px solid #ddd
+  margin: 10px 0
+
+.small-data-card
+  +makeFlex(100%,row, center, center)
+  height: 80px
+  margin: 0 5px
+  font:
+    size: 20px
+    weight: bolder
+  box-shadow: 2px 2px 2px 2px transparentize(#555,.9)
+  background: #fff
+  border: 1px solid #ddd
+  color: #555
+  overflow: hidden
+  cursor: pointer
+  transition: all ease .3s
+  position: relative
+
+  &:first-child
+    margin-left: 0
+  &:last-child
+    margin-right: 0
+
+  .material-icons
+    color: $contrast-color
+
+  .data
+    color: lighten($primary-color,20%)
+    margin-right: 5px
+
+  &:hover
+    box-shadow: 2px 4px 2px 1px transparentize(#555,.7)
+    .card-detail
+      top: 0
+
+  .card-detail
+    background: $contrast-color
+    color: white
+    +size(100%,100%)
+    position: absolute
+    top: 100%
+    +makeFlex(100%,row,center,center)
+    padding: 0 0 0 0
+
+  .cover-links
+    color: white
+    display: block
+    width: 100%
+    height: 100%
+    text-align: center
+    padding-top: 20px
+.shortcuts-container.data-card-container
+  width: 100%
+
+.wide-chart
+  +size(100%, 350px)
+  background: white
+  margin-bottom: 25px
+  padding: 10px 5px
+
+.little-chart
+  padding: 5px
+
+#services-chart
+  +size(100%,230px)
+
+canvas
+  +size(100%,350px)
+
+.normal-chart
+  height: 230px
+
+.fixed-wrapper
+  height: 100%
+  overflow: auto
+
+.bg-primary
+  text-align: center
+  background: $contrast-color
+  color: white
+  flex-direction: column
+
+  .amount
+    color: white
+    font-weight: bolder
+    font-size: 25px
+
+  .today-data
+    font-size: 20px
+    margin: 0 0 40px 0
+
+.card-text
+  .fecha
+    color: $color-error
+  .autor
+    color: $contrast-color
+  p
+    padding: 0 20%
+    text-align: left
+    color: $contrast-color
+    b
+      width: 150px
+      display: inline-block
+    .right
+      text-align: left
+      padding-left: 50px
+      color: #4E5962
+      width: 200px
+      display: inline-block
+
+.navigator
+  display: flex
+
+  .cs-row
+    width: 100%
+    height: 48px
+    +makeFlex(100%, row, flex-end, center)
+
+    button
+      border: 0
+      height: 100%
+      color: white
+      padding: 5px
+      background: $contrast-color
+      +makeFlex(fit-content, row, center, center)
+      display: inline-flex
+      cursor: pointer
+      &.reset-btn
+        margin: 5px 0
+      &:hover
+        background: lighten($contrast-color, 10%)
+
+    .value
+      display: inline-block
+      height: 100%
+      padding: 0 10px
+      +makeFlex(fit-content, row, center, center)
+      background: $contrast-color
+      color: white
+
+  h4.title
+    width: 100%
+
+@media (max-width: 991px)
+  .small-data-card
+    width: 100%
+    margin: 10px 0
+
+  .right-panel,
+  .wide-chart
+    width: 100%
+
+  .reports
+    .shortcuts-container
+      width: 100%
+      display: flex
+      justify-content: space-around
+      align-items: center
+
+  .nav-tabs
+    display: flex
+    flex-wrap: wrap
+
+  .right-panel
+    position: static
+@media print
+  header,
+  #app-cierre,
+  button,
+  a,
+  a.link.btn,
+  .__header,
+  .__title,
+  .data-card-container,
+  .nav-tabs,
+  .wide-chart,
+  .small-data-card,
+  .tab-pane + h4
+    display: none
+  .factura-body
+    display: block
+    margin: 0 0 0 0
+  .fecha-recibo
+    color: #06f !important
+  .concepto
+    background: whitesmoke !important
+    border-top: 1px solid #aaaaaa
+    border-bottom: 1px solid #aaaaaa
+  .company-name h2
+    color: #f20 !important
+  .cuerpo
+  .data-card-container
