@@ -10,7 +10,7 @@ class SpaController extends Controller
     public function index(Request $request )
     {
         $user = $request->user();
-        $company = Company::get();
+        $company = Company::find(1);
         return view('home', [
             'user' => $user,
             'company' => $company

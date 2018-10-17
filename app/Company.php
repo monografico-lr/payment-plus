@@ -14,7 +14,7 @@ class Company extends Model
         return $this::find('id', $id);
     }
 
-    public function update($id = 1, $data) {
+    public function updateData($id = 1, $data) {
         $company = $this::find($id);
         $company->update($data);
     } 

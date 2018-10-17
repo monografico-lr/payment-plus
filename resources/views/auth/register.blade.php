@@ -38,6 +38,32 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="nickname" class="col-md-4 col-form-label text-md-right">{{ __('nickname') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="nickname" type="name" class="form-control{{ $errors->has('nickname') ? ' is-invalid' : '' }}" name="nickname" value="{{ old('nickname') }}" required>
+
+                                @if ($errors->has('nickname'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('nickname') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="lastname" class="col-md-4 col-form-label text-md-right">{{ __('Lastname') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="lastname" type="name" class="form-control{{ $errors->has('lastname') ? ' is-invalid' : '' }}" name="lastname" value="{{ old('lastname') }}" required>
+
+                                @if ($errors->has('lastname'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('lastname') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
