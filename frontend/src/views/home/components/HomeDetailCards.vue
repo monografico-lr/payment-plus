@@ -25,13 +25,16 @@
 							</div>
 					</div>
 			</div>
-			<div class="details-control-container"><button class="detail-control" @click="moveControls(index)" v-for="(page, index) in pages"> {{ page }}</button></div>
+			<div class="details-control-container">
+                <button class="detail-control" :key="`detail-button-${index}`" @click="moveControls(index)" v-for="(page, index) in pages"> {{ page }}</button>
+            </div>
 	</div>
 </template>
 
 
 <script>
-	import HomeDetailCardsItem from './HomeDetailCardsItem.vue';
+    import HomeDetailCardsItem from './HomeDetailCardsItem.vue';
+    import $ from 'jquery';
 
 	export default {
 		components: {
@@ -52,8 +55,8 @@
 		},
 		mounted() {
 			this.moveControls();
-			this.getList('get_next_payments', 'nextPayments');
-			this.getList('get_debtors', 'debtors');
+			// this.getList('get_next_payments', 'nextPayments');
+			// this.getList('get_debtors', 'debtors');
 		},
 
 		methods: {
