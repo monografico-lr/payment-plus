@@ -13,6 +13,8 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -140,7 +142,7 @@
                     </div>
                     <span class="caret"></span>
                     </a>
-                {{--  {{ include('layouts/dropdown_user.twig') }} 
+                {{--  {{ include('layouts/dropdown_user.twig') }}
                 </div>  --}}
                 </div>
 
