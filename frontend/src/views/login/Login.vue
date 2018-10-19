@@ -86,7 +86,8 @@ export default {
       const self = this;
       this.service.doLogin(this.credentials)
         .then((res) => {
-          if (res.data.is_correct) {
+          if (res) {
+            console.log(res)
             window.location.href = `/`;
           } else {
             self.$toasted.info('Usuario y Contraseña no validos');

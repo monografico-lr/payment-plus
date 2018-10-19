@@ -32,4 +32,4 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes(['verify' => true]);
 
-Route::get('/{any}', 'SpaController@index')->middleware('verified')->where('any', '.*');
+Route::get('/{any}', 'SpaController@index')->where('any', '.*');

@@ -23,6 +23,7 @@
     color: #555
 
 .clock-card
+  margin-left: 3%
   padding: 0 0 0 0
   +size(31.5%,150px)
   background: $primary-color
@@ -92,8 +93,7 @@
   +size(100%,180px)
 
 .shortcuts-container
-  +makeFlex(65%, row, row, flex-start)
-  margin-right: 3%
+  +makeFlex(65.5%, row,null, flex-start)
   padding: 15px 0
 
 .shortcut
@@ -103,6 +103,7 @@
   cursor: pointer
   color: $contrast-color
   transition: all ease .3s
+  margin: 0 1%
   font-size: 20px
   &:hover
     border: 2px solid  $contrast-color

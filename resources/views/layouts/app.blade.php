@@ -26,9 +26,7 @@
     <link href=/js/chunk-vendors.js rel=preload as=script>
 
     <style>
-        #app-server #app {
-            margin-top: 90px;
-        }
+
     </style>
 </head>
 <body>
