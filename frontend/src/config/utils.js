@@ -1,5 +1,6 @@
+import $ from'jquery';
 import moment from 'moment';
-import '@/../../node_modules/moment/locale/es-do';
+import 'moment/locale/es-do';
 
 export default {
   isEmpty(values) {

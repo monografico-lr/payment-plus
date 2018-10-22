@@ -16,7 +16,7 @@
                           p.day {{ date.day }}
                           p.month-year {{ date.monthYear }}
                           span.dayweek {{ date.dayWeek }}
-      HomeDetailCards(:pages="['proximos pagos', 'Caja Chica', 'Deudores', 'Ganancias']")
+      HomeDetailCards(:pages="['Proximos pagos', 'Caja Chica', 'Deudores', 'Ganancias']")
 
     .row.home-options-container
       .col-md-8.hidden-xs.shortcuts-container
