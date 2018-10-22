@@ -15,7 +15,7 @@ class CreateContratosTable extends Migration
     {
         Schema::create('contratos', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_user');
+            $table->integer('id_usuario');
             $table->integer('id_cliente');
             $table->integer('id_servicio');
             $table->string('codigo', 6);

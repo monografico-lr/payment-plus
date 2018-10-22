@@ -6,7 +6,15 @@
 @import 'variables';
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// @import '~bootstrap/scss/bootstrap';
+
+//insanecode assets
+// @import '../insanecode/css/5-others/material-icons.css';
+@import '../insanecode/css/5-others/bootstrap.min.css';
+// @import '../insanecode/css/5-others/font-awesome.min.css';
+// @import '../insanecode/css/5-others/peace-material.min.css';
+// @import '../insanecode/css/5-others/AdminLTE.min.css';
+@import '../insanecode/css/main.sass';
 
 .navbar-laravel {
   background-color: #fff;

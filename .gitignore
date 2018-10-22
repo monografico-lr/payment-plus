@@ -1,11 +1,15 @@
 /node_modules
 /public/hot
-/public/storage
+/public/assets
+/public/js
+/public/css
+/public/img
 /storage/*.key
 /vendor
 /.idea
 /.vscode
 /.vagrant
+!/public/assets/uploads/company/default.png
 Homestead.json
 Homestead.yaml
 npm-debug.log

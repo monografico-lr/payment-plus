@@ -1,5 +1,7 @@
 <?php
  use App\User;
+use App\Company;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +15,21 @@
 */
 
 
-Route::get('/about', function () {
-    $users = User::all();
-    return view('welcome');
-})->middleware('verified');
+Route::get('/currentuser', function (Request $request) {
+    return $request->user();
+})->middleware('auth');
+
+Route::get('/currentcompany', function (Request $request) {
+    return Company::find(1);
+})->middleware('auth');
+
+Route::get('/logout', function () {
+    Auth::logout();
+    return redirect('login');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes(['verify' => true]);
 
-Route::get('/{any}', 'SpaController@index')->middleware('verified')->where('any', '.*');
+Route::get('/{any}', 'SpaController@index')->where('any', '.*');
