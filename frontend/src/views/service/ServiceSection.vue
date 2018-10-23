@@ -108,16 +108,16 @@
       },
 
       getServices() {
-        this.$http.post('service/get_services')
+        this.$http.get('service')
           .then((res) => {
-            this.services = res.data.services;
+            this.services = res.data.data;
           });
       },
 
       getService() {
         const service = this.selectedService;
         if (service) {
-          this.$http.post('service/get_service', this.getDataForm({ id: service.id }))
+          this.$http.get(`service/${service.id}`)
             .then((res) => {
               this.store.setService(res.data.service);
               this.store.setServiceMode('update');

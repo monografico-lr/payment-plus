@@ -13,7 +13,18 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UsersTableSeeder::class,
-            EmpresasTableSeeder::class
+            CompanyTableSeeder::class,
+            ServicesTableSeeder::class
             ]);
     }
 }
+
+// php artisan make:seeder UsersTableSeeder
+// php artisan db:seed
+
+//php artisan db:seed --class=UsersTableSeeder
+
+
+// You may also seed your database using the migrate:refresh command, which will also rollback and re-run all of your migrations. This command is useful for completely re-building your database:
+
+//     php artisan migrate:refresh --seed

@@ -14,7 +14,12 @@ use Illuminate\Http\Request;
 |
 */
 
+// Api routes
+Route::apiResources([
+    'service' => 'ServiceController',
+]);
 
+// utils
 Route::get('/currentuser', function (Request $request) {
     return $request->user();
 })->middleware('auth');
@@ -28,8 +33,8 @@ Route::get('/logout', function () {
     return redirect('login');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
-
+// verify email
 Auth::routes(['verify' => true]);
 
+// Vue js
 Route::get('/{any}', 'SpaController@index')->middleware('auth')->where('any', '.*');

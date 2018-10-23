@@ -37,7 +37,7 @@ export default {
     getCompany() {
       axios.get('/currentcompany')
         .then((res) => {
-          this.$store.$dispatch('setCompany', res.data);
+          this.$store.dispatch('setCompany', res.data);
         });
     },
 
@@ -51,7 +51,7 @@ export default {
     getUser() {
       axios.get('/currentuser')
         .then((res) => {
-          this.$store.$dispatch('setUser', res.data.user);
+          this.$store.dispatch('setUser', res.data.user);
         });
     }
   }

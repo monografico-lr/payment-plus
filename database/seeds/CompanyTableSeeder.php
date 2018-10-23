@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class EmpresasTableSeeder extends Seeder
+class CompanyTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,6 +19,6 @@ class EmpresasTableSeeder extends Seeder
             'direccion' => 'C/ Bienvenido Creales No.94, Centro Ciudad. Edif. EuroPlaza',
             'telefono1' => '8098131111',
             'telefonos' => '8297483990'
-        ]);        
+        ]);
     }
 }
