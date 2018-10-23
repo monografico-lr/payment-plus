@@ -20,9 +20,12 @@ abstract class ApiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->model::paginate(50);
+        $limit = $request->get('limit');
+        $search = $request->get('search');
+        $limit = $limit ? $limit : 50;
+        return $this->model::paginate($limit);
     }
 
     /**
