@@ -5,7 +5,8 @@ export default class ServiceStore {
         field: 'orden',
         title: 'No.',
         align: 'center',
-        valign:	'middle'
+        type: 'index',
+        valign: 'middle'
       },
       {
         field: 'checkbox',
@@ -21,25 +22,25 @@ export default class ServiceStore {
         field: 'nombre',
         title: 'Nombre',
         align: 'center',
-        valign:	'middle'
+        valign: 'middle'
       },
       {
         field: 'descripcion',
         title: 'Descripción',
         align: 'center',
-        valign:	'middle'
+        valign: 'middle'
       },
       {
         field: 'mensualidad',
         title: 'Mensualidad(o Precio)',
         align: 'center',
-        valign:	'middle'
+        valign: 'middle'
       },
       {
         field: 'tipo',
         title: 'Tipo',
         align: 'center',
-        valign:	'middle'
+        valign: 'middle'
       },
     ];
 

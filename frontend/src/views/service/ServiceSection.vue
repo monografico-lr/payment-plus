@@ -33,7 +33,7 @@
           .pull-right
             select#service-filter.form-group.filter.btn.btn-primary
               option(:value="option.id", v-for="option of options") {{ option.text }}
-        DataTable(ids="service-table", :parentId="parentId", :data="services", :cols="cols", :toolbar="toolbar", :options="tableOptions", @check-uncheck="listen")
+        CustomTable(ids="service-table", :parentId="parentId", :data="services", :cols="cols", :toolbar="toolbar", :options="tableOptions", @check-uncheck="listen")
     ServiceModal(:store="store", :service="store.service", :modal-mode="store.serviceMode" @save="addUpdate")
 
 </template>
@@ -42,17 +42,18 @@
   import swal from 'sweetalert2';
   import utils from './../../config/utils';
   import DataTable from './../../components/DataTable.vue';
+  import CustomTable from './../../components/CustomTable.vue';
   import ServiceModal from './components/ServiceModal.vue';
   import Store from './store/ServiceStore';
 
   export default {
     components: {
       DataTable,
+      CustomTable,
       ServiceModal
     },
 
     mounted() {
-      this.getServices();
       utils.spyLeftNavigation();
     },
 
@@ -63,12 +64,14 @@
         title: 'Servicios',
         parentId: '#service-table-container',
         toolbar: '#service-toolbar',
-        services: '',
+        services: [],
+
         tableOptions: {
-          pageSize: 200,
-          pageList: [50, 100, 200, 500, 1000],
+          pageSize: 1,
+          pageList: [1, 2, 50, 100, 200, 500, 1000],
           states: ['internet', 'reparacion', 'seguro'],
-          stateField: 'tipo'
+          stateField: 'tipo',
+          endpoint: 'service'
         },
         selectedService: null,
         options: [
@@ -105,13 +108,6 @@
         } else {
           this.$toasted.info('LLene todos los campos por favor');
         }
-      },
-
-      getServices() {
-        this.$http.get('service')
-          .then((res) => {
-            this.services = res.data.data;
-          });
       },
 
       getService() {
