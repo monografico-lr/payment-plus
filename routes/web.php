@@ -16,7 +16,12 @@ use Illuminate\Http\Request;
 
 // Api routes
 Route::apiResources([
+    //business
     'service' => 'ServiceController',
+    'section' => 'SectionController',
+    'ip' => 'IpController',
+    // Management
+    'client' => 'ClientController',
 ]);
 
 // utils

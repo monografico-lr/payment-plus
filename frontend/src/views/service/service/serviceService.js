@@ -1,5 +1,4 @@
 import axios from 'axios';
-import utils from './../../sharedComponents/utils';
 
 const $http = axios.create({
   baseURL: '/'
@@ -10,11 +9,11 @@ export default class serviceService {
   }
 
   getServiceList(type = '') {
-    return this.$http.post(`service/get_services/${type}`);
+    return this.$http.post(`/service?q=(tipo:${type})`);
   }
 
   getService(id) {
-    return this.$http.post('service/get_service', utils.getDataForm({ id }))
-      .then(res => res.data.service);
+    return this.$http.post(`/service/${id}`)
+      .then(res => res.data);
   }
 }
