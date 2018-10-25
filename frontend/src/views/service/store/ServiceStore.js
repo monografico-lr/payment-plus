@@ -9,16 +9,6 @@ export default class ServiceStore {
         valign: 'middle'
       },
       {
-        field: 'checkbox',
-        checkbox: true,
-        class: 'hide'
-      },
-      {
-        field: 'id',
-        title: 'ID #',
-        class: 'hide',
-      },
-      {
         field: 'nombre',
         title: 'Nombre',
         align: 'center',

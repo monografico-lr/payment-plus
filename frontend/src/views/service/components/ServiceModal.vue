@@ -48,9 +48,9 @@
     data() {
       return {
         options: [
-          { id: 'internet', text: 'Internet' },
-          { id: 'reparacion', text: 'Reparacion' },
-          { id: 'seguro', text: 'Seguro' },
+          { id: 1, text: 'Internet' },
+          { id: 2, text: 'Reparacion' },
+          { id: 3, text: 'Seguro' },
         ]
       };
     },

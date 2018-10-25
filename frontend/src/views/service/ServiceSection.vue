@@ -27,13 +27,13 @@
         .searcher-container.main-toolbar#service-toolbar
           .input-group.search
             .input-group-addon: i.material-icons search
-            input.form-control.searcher(type="text" placeholder="Buscar servicio")
+            input.form-control.searcher(type="text" placeholder="Buscar servicio" v-model.lazy="search")
           .pull-right
             a.btn.icon.print-table(target="_blank" href="process/getreport/services'"): i.material-icons print
           .pull-right
             select#service-filter.form-group.filter.btn.btn-primary
               option(:value="option.id", v-for="option of options") {{ option.text }}
-        CustomTable(ids="service-table", :parentId="parentId", :data="services", :cols="cols", :toolbar="toolbar", :options="tableOptions", @check-uncheck="listen")
+        CustomTable(ids="service-table", ref="Table", :parentId="parentId", :data="services", :cols="cols", :toolbar="toolbar", :search="search",:options="tableOptions", @check-uncheck="listen")
     ServiceModal(:store="store", :service="store.service", :modal-mode="store.serviceMode" @save="addUpdate")
 
 </template>
@@ -65,6 +65,7 @@
         parentId: '#service-table-container',
         toolbar: '#service-toolbar',
         services: [],
+        search: '',
 
         tableOptions: {
           pageSize: 1,
@@ -93,17 +94,18 @@
       addUpdate() {
         const { service } = this.store;
         const empty = utils.isEmpty(service);
+        const method = this.store.serviceMode == 'add' ? 'post' : 'put';
+        const url = service.id ?  `/service/${service.id}` : '/service';
+
         if (!empty) {
-          this.$http.post(`service/${this.store.serviceMode}`, this.getDataForm(service))
+          this.$http[method](url, service)
             .then((res) => {
-              this.getServices();
-              this.showMessage(res.data.message);
-              if (res.data.message.type === 'success') {
+                this.$toasted.success('Servicio creado');
+                this.$refs.Table.getData();
                 $('#service-modal').modal('hide');
-              }
             })
             .catch((err) => {
-              this.$toasted.error(err);
+              this.$toasted.error(err.data.message);
             });
         } else {
           this.$toasted.info('LLene todos los campos por favor');
@@ -111,11 +113,12 @@
       },
 
       getService() {
-        const service = this.selectedService;
+        const service = this.$refs.Table.currentRow;
+
         if (service) {
           this.$http.get(`service/${service.id}`)
             .then((res) => {
-              this.store.setService(res.data.service);
+              this.store.setService(res.data);
               this.store.setServiceMode('update');
               $('#service-modal').modal();
             })
@@ -133,19 +136,18 @@
 
       deleteService() {
         const self = this;
+        const service = this.$refs.Table.currentRow;
 
         function sendDelete(id) {
-          self.$http.post('service/delete', self.getDataForm({ id }))
+          self.$http.delete(`/service/${id}`)
             .then((res) => {
-              self.showMessage(res.data.message);
-              if (res.data.message.type === 'success') {
-                self.selectedService = null;
-              }
-              self.getServices();
+              self.$toasted.success('Servicio eliminado');
+              self.$refs.Table.getData();
             });
         }
-        if (this.selectedService) {
-          const service = this.selectedService;
+
+
+        if (service) {
           swal({
             title: 'Eliminar Servicio',
             text: `¿Está seguro de querer eliminar a ${service.nombre}`,
