@@ -23,15 +23,11 @@ abstract class ApiController extends Controller
         $limit = $limit ? $limit : 50;
 
         if ($search) {
-            $whereRaw = '';
-            foreach ($this->searchable as $field) {
-                if (!$whereRaw) {
-                    $whereRaw .= "$field like '%$search%'";
-                } else {
-                    $whereRaw .= " or $field like '%$search%'";
-                }
+            try {
+                return $this->model::search($search)->paginate($limit);
+            } catch (\Exception $exception) {
+                return $this->localSearch($search, $limit);
             }
-           return $this->model::whereRaw($whereRaw)->paginate($limit);
         }
 
         return $this->model::paginate($limit);
@@ -47,7 +43,7 @@ abstract class ApiController extends Controller
     {
         $resource = $this->model::create($request->post());
         return [
-            "message" => $this->createdMessage,   
+            "message" => $this->createdMessage,
             "data" => $resource
         ];
     }
@@ -62,7 +58,7 @@ abstract class ApiController extends Controller
     {
         return $this->model::find($id);
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -89,6 +85,36 @@ abstract class ApiController extends Controller
     {
         $resource = $this->model::find($id);
         $resource->delete();
-        return $resource; 
+        return $resource;
+    }
+
+    private function localSearch($search, $limit)
+    {
+        $whereRaw = '';
+        foreach ($this->searchable as $field) {
+            if (!$whereRaw) {
+                $whereRaw .= "$field like '%$search%'";
+            } else {
+                $whereRaw .= " or $field like '%$search%'";
+            }
+        }
+        return $this->model::whereRaw($whereRaw)->paginate($limit);
+    }
+
+    public function report(Request $request)
+    {
+        $limit = $request->get('limit');
+        $search = $request->get('search');
+        $limit = $limit ? $limit : 50;
+
+        if ($search) {
+            try {
+                return $this->model::search($search)->paginate($limit);
+            } catch (\Exception $exception) {
+                return $this->localSearch($search, $limit);
+            }
+        }
+
+        return $this->model::paginate($limit);
     }
 }
