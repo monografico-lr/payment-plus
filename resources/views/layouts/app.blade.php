@@ -17,6 +17,7 @@
       rel="stylesheet">
 
     <!-- Styles -->
+    <link href="{{ asset('css/chunk-vendors.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel=icon href=/favicon.ico> <title>frontend</title>
     <meta charset=utf-8>
