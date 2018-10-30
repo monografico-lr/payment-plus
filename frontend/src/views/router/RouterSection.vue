@@ -30,16 +30,15 @@
 
 <script>
   import RouterModal from './components/RouterModal.vue';
-  import DataTable from './../sharedComponents/DataTable.vue';
+  import utils from './../../config/utils';
+  import DataTable from './../../components/DataTable.vue';
   import CustomTable from './../../components/CustomTable.vue';
-  import utils from './../sharedComponents/utils';
-  import Progress from './../sharedComponents/Progress';
+//   import Progress from './../sharedComponents/Progress';
 
-  const heavyLoad = new Progress('heavy');
+//   const heavyLoad = new Progress('heavy');
 
   export default {
     components: {
-      DataTable,
       RouterModal,
       CustomTable
     },

@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+      <app-header></app-header>
       <transition name="slide">
         <router-view/>
       </transition>
@@ -9,7 +10,12 @@
 <script>
 
 import { mapGetters } from 'vuex';
+import AppHeader from './components/AppHeader';
+
 export default {
+  components: {
+      AppHeader
+  },
   mounted() {
     this.getCompany();
     this.getUser();
