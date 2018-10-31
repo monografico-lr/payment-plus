@@ -68,6 +68,9 @@ export default {
     watch: {
       search() {
         this.customSearch();
+      },
+      'options.endpoint'() {
+        this.getData();
       }
     },  
     mounted() {
@@ -75,18 +78,20 @@ export default {
     },
     methods: {
       getData(page = 1, query) {
-        page = page || this.pagination.page;
-        const pageSize = this.pagination.pageSize || 50;
-        const search = query ? `search=${query}&` : '';
-
-        this.$http.get(`${this.options.endpoint}?${search}page=${page}&limit=${pageSize}`)
-          .then((res) => {
-            this.data = res.data.data;
-            this.pagination.page = res.data.current_page;
-            this.pagination.lastPage = res.data.last_page;
-            this.pagination.pageSize = Number(res.data.per_page);
-            this.pagination.total = res.data.total;
-          });
+        if (this.options.endpoint) {
+          page = page || this.pagination.page;
+          const pageSize = this.pagination.pageSize || 50;
+          const search = query ? `search=${query}&` : '';
+  
+          this.$http.get(`${this.options.endpoint}?${search}page=${page}&limit=${pageSize}`)
+            .then((res) => {
+              this.data = res.data.data;
+              this.pagination.page = res.data.current_page;
+              this.pagination.lastPage = res.data.last_page;
+              this.pagination.pageSize = Number(res.data.per_page);
+              this.pagination.total = res.data.total;
+            });
+        }
       },
 
       handleCurrentChange(val) {

@@ -70,7 +70,6 @@ abstract class ApiController extends Controller
     {
         $resource = $this->model::find($id);
         $resource->update($request->post());
-        dump($resource);
         return $resource;
         //
     }

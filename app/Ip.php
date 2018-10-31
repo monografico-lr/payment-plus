@@ -12,6 +12,6 @@ class Ip extends Model
 
     public function section()
     {
-        return $this->belongsTo('App\Section', 'seccion_id');
+        return $this->belongsTo('App\Section', 'id_seccion');
     }
 }

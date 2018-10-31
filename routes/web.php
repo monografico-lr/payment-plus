@@ -24,6 +24,8 @@ Route::apiResources([
     'client' => 'ClientController',
 ]);
 
+Route::get('/section/ips/{id}', 'SectionController@ips');
+
 // utils
 Route::get('/currentuser', function (Request $request) {
     return $request->user();

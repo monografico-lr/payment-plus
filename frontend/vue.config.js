@@ -1,7 +1,8 @@
+const env = require('./.env.js')
 module.exports = {
   // proxy API requests to Valet during development
   devServer: {
-    proxy: 'http://laravel.test/',
+    proxy: env.proxy || 'http://payment.test/',
   },
 
   // output built static files to Laravel's public dir.
