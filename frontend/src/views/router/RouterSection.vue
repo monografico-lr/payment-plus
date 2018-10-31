@@ -93,14 +93,12 @@
           //heavyLoad.play();
           this.$http[method](`/section`, this.sector)
             .then((res) => {
-              this.$toastr(res.data.message);
+              this.$toasted.success('Sector creado');
               this.sectorEmpty();
               $('#router-modal').modal('hide');
+              this.getSectionList();
               //heavyLoad.stop();
               this.getIps();
-              if (this.modalMode === 'edit') {
-                $('#router-modal').modal('hide');
-              }
             })
 
             .catch((err) => {
@@ -127,7 +125,7 @@
       },
 
       sectorEmpty() {
-        this.sectorEmpty = {
+        this.sector = {
           nombre: '',
           codigo_area: ''
         };
@@ -183,52 +181,52 @@
       },
       cols() {
         return [
-          {
-            field: 'num',
+        {
+            field: 'orden',
             title: 'No.',
-            valign: 'middle',
             align: 'center',
-            sortable: 'true'
-          },
-          {
-            checkbox: true,
-            field: 'checkbox',
-            title: '',
-            valign: 'middle',
-            align: 'center',
-            class: 'hide'
-          },
-          {
-            field: 'sector',
+            type: 'index',
+            valign: 'middle'
+        },
+        {
+            field: 'section',
             title: 'Sector',
             valign: 'middle',
             align: 'center',
-          },
-          {
-            field: 'codigo',
+            customDisplay(row, field, store) {
+                if (field) {
+                    return `${field['nombre']}`;
+                }
+            }
+        },
+        {
+            field: 'section',
             title: 'Codigo',
             valign: 'middle',
             align: 'center',
-            class: 'hide'
-          },
-          {
-            field: 'ip',
+            customDisplay(row, field, store) {
+                if (field) {
+                    return `${field['codigo_area']}`;
+                }
+            }
+        },
+        {
+            field: 'section',
             title: 'Direccion IP',
             valign: 'middle',
-            align: 'center'
-          },
-          {
+            align: 'center',
+            customDisplay(row, field, store) {
+                if (field) {
+                    return `${field['base_ip']}${field['codigo_area']}.${row['codigo_final']}`;
+                }
+            }
+        },
+        {
             field: 'estado',
             title: 'Estado',
             valign: 'middle',
             align: 'center'
-          },
-          {
-            field: 'acciones',
-            title: 'Acciones',
-            valign: 'middle',
-            align: 'center'
-          },
+        }
         ];
       }
     }
