@@ -9,6 +9,6 @@
     "build": "cd frontend/ && npm install && npm run build"
   },
   "dependencies": {
-    "jquery": "^3.3.1",
+    "jquery": "^3.3.1"
   }
 }
