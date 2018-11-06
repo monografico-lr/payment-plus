@@ -8,10 +8,10 @@
             @current-change="handleCurrentChange"
             header-row-class-name="insane-table__header"
             style="width: 100%">
-            <template v-for="(col, index) in cols">
+            <template v-for="(col, colIndex) in cols">
                 <el-table-column
                     v-if="!col.customDisplay"
-                    :key="`${col.field}-${index}`"
+                    :key="`${col.field}-${colIndex}`"
                     :type="col.type"
                     :index="index"
                     :label="col.title"
@@ -19,9 +19,8 @@
                 </el-table-column>
 
                 <el-table-column v-if="col.customDisplay"
-                    :key="`${col.field}-${index}`"
+                    :key="`${col.field}-${colIndex}`"
                     :type="col.type"
-                    :index="index"
                     :label="col.title"
                     :property="col.field">
                     <div  slot-scope="scope"  v-html="getHTMLText(scope.row, scope.column, col)">
@@ -126,7 +125,7 @@ export default {
 
       index(index) {
         index += 1;
-        return this.pagination.page * this.pagination.pageSize - this.pagination.pageSize + index
+        return this.pagination.page * this.pagination.pageSize - this.pagination.pageSize + index;
       },
 
         getHTMLText(row, field, cell) {
