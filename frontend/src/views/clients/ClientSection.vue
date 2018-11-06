@@ -98,7 +98,7 @@
 
     methods: {
       getClients() {
-        this.$http.post('/client')
+        this.$http.get('/client')
           .then((res) => {
             this.clients = res.data;
           });
@@ -107,9 +107,9 @@
       getClient() {
         const client = this.selectedClient;
         if (client) {
-          this.$http.post('clients/get_client', this.getDataForm({ id: client.id }))
+          this.$http.get(`/client/${client.id}`)
             .then((res) => {
-              this.store.setClient(res.data.client);
+              this.store.setClient(res.data);
               this.store.setClientMode('update');
               $('#client-modal').modal();
             })

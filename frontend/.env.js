@@ -1,3 +1,3 @@
 module.exports = {
-    proxy: 'http://payment-plus.test'
+    proxy: 'http://laravel57.test'
 }

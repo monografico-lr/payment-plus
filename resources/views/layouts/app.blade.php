@@ -38,7 +38,7 @@
         @guest
 
         @else
-            <header class="loading">
+            <!-- <header class="loading">
                 <div class="header-low">
                     <div class="brand">
                     <a href="#" @click.prevent="toggleMenu">
@@ -102,7 +102,7 @@
                     </div>
 
                 </div>
-            </header>
+            </header> -->
         @endguest
         @yield('content')
     </div>
