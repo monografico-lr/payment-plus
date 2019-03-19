@@ -19,8 +19,13 @@ abstract class ApiController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit');
+        $filter = $request->get('filter');
         $search = $request->get('search');
         $limit = $limit ? $limit : 50;
+
+        if ($filter) {
+
+        }
 
         if ($search) {
             try {
@@ -68,9 +73,9 @@ abstract class ApiController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dump($request->post());
         $resource = $this->model::find($id);
         $resource->update($request->post());
-        dump($resource);
         return $resource;
         //
     }

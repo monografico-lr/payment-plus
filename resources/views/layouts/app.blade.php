@@ -17,6 +17,7 @@
       rel="stylesheet">
 
     <!-- Styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="{{ asset('css/chunk-vendors.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel=icon href=/favicon.ico> <title>frontend</title>
@@ -32,72 +33,24 @@
 </head>
 <body>
     <div id="app-server">
-        {{--  <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li>
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>  --}}
 
         <div class="loader"><span class="load"></span></div>
         @guest
 
         @else
-            <header class="loading">
+            <!-- <header class="loading">
                 <div class="header-low">
                     <div class="brand">
                     <a href="#" @click.prevent="toggleMenu">
                         <i class="material-icons brand__menu">menu</i>
                     </a>
                     <a href="{{ url('/') }}" class="hidden-xs">
-                        <h3>{{ config('app.name', 'Laravel') }}</h3>
+                        <h3>{{ config('app.name', 'Payment-Plus') }}</h3>
                     </a>
                     </div>
 
                     <nav class="top-nav">
-                    <li class="navButton hidden-xs"><a href="/">Lobby</a></li>
+                    <li class="navButton hidden-xs"><a href="/"> Dashboard </a></li>
                     <li class="navButton hidden-xs"><a href="/clientes">Clientes</a></li>
                     <li class="navButton hidden-xs"><a href="/servicios">Servicios</a></li>
                     <li class="navButton hidden-xs"><a href="/contratos">Contratos</a>
@@ -149,7 +102,7 @@
                     </div>
 
                 </div>
-            </header>
+            </header> -->
         @endguest
         @yield('content')
     </div>

@@ -20,31 +20,31 @@
             a.btn.icon.print-table(target="_blank", :href="reportUrl"): i.material-icons print
           .pull-right
             select#select-sector.btn.btn-primary(v-model="selectedId", @change="getIps")
-              option(:value="section.id", v-for="section of sections") {{ section.text }}
+              option(:value="section.id", v-for="section of sections") {{ section.nombre }}
           .pull-right
             select#client-filter.form-group.filter.btn.btn-primary
               option(:value="option.key", v-for="option of options") {{ option.text }}
-        CustomTable(ids="router-table", ref="Table", :parentId="parentId", :data="content", :cols="cols", :toolbar="toolbar", :search="search.text",:options="tableOptions", @check-uncheck="listen")
+        CustomTable(ids="router-table", ref="Table", :parentId="parentId", :data="content", :cols="cols", :toolbar="toolbar", :search="search.text",:options="tableOptions")
         RouterModal(:sector="sector", :modal-mode="modalMode", @save="save")
 </template>
 
 <script>
   import RouterModal from './components/RouterModal.vue';
-  import DataTable from './../sharedComponents/DataTable.vue';
+  import utils from './../../config/utils';
+  import DataTable from './../../components/DataTable.vue';
   import CustomTable from './../../components/CustomTable.vue';
-  import utils from './../sharedComponents/utils';
-  import Progress from './../sharedComponents/Progress';
+//   import Progress from './../sharedComponents/Progress';
 
-  const heavyLoad = new Progress('heavy');
+//   const heavyLoad = new Progress('heavy');
 
   export default {
     components: {
-      DataTable,
       RouterModal,
       CustomTable
     },
     mounted() {
       utils.spyLeftNavigation();
+      this.getSectionList();
     },
     data() {
       return {
@@ -66,11 +66,11 @@
           codigo_area: ''
         },
         tableOptions: {
-          pageSize: 200,
+          pageSize: 50,
           pageList: [50, 100, 200, 500, 1000],
           states: ['ocupado', 'disponible', 'sectorial'],
           stateField: 'estado',
-          endpoint: 'section'
+          endpoint: ''
         },
         search: {
           text: '',
@@ -87,24 +87,22 @@
     methods: {
       save() {
         const empty = utils.isEmpty(this.sector);
+        const method = this.modalMode == 'add' ? 'post' : 'put';
+
         if (!empty) {
-          heavyLoad.play();
-          this.$http.post(`section/${this.modalMode}`, this.getDataForm(this.sector))
+          //heavyLoad.play();
+          this.$http[method](`/section`, this.sector)
             .then((res) => {
-              this.showMessage(res.data.message);
-              if (res.data.message.type === 'success') {
-                this.sectorEmpty();
-                $('#router-modal').modal('hide');
-              }
-              heavyLoad.stop();
+              this.$toasted.success('Sector creado');
+              this.sectorEmpty();
+              $('#router-modal').modal('hide');
+              this.getSectionList();
+              //heavyLoad.stop();
               this.getIps();
-              window.appBus.$emit('transaction');
-              if (this.modalMode === 'edit') {
-                $('#router-modal').modal('hide');
-              }
             })
+
             .catch((err) => {
-              heavyLoad.stop();
+            //  heavyLoad.stop();
               this.$toasted.error(err);
             });
         } else {
@@ -113,15 +111,7 @@
       },
 
       getIps() {
-        if (this.selectedId) {
-          this.$http.post('section/get_ips', this.getDataForm({ id_section: this.selectedId }))
-            .then((res) => {
-              this.content = res.data.ips;
-            })
-            .catch((err) => {
-              this.$toasted.error(err);
-            });
-        }
+        this.tableOptions.endpoint = `/section/ips/${this.selectedId}`;
       },
 
       updateIpState(IP) {
@@ -135,20 +125,18 @@
       },
 
       sectorEmpty() {
-        this.sectorEmpty = {
+        this.sector = {
           nombre: '',
           codigo_area: ''
         };
       },
 
       getSectionList() {
-        heavyLoad.play();
-        this.$http.get('section/get_sections/list')
+        this.$http.get('/section')
           .then((res) => {
-            this.sections = res.data.sections;
+            this.sections = res.data.data;
             this.selectedId = this.sections[0].id;
             this.getIps();
-            heavyLoad.stop();
           });
       },
 
@@ -189,56 +177,56 @@
     },
     computed: {
       reportUrl() {
-        return `${baseURL}process/getreport/secciones/${this.selectedId}`;
+        return `/section/report/${this.selectedId}`;
       },
       cols() {
         return [
-          {
-            field: 'num',
+        {
+            field: 'orden',
             title: 'No.',
-            valign: 'middle',
             align: 'center',
-            sortable: 'true'
-          },
-          {
-            checkbox: true,
-            field: 'checkbox',
-            title: '',
-            valign: 'middle',
-            align: 'center',
-            class: 'hide'
-          },
-          {
-            field: 'sector',
+            type: 'index',
+            valign: 'middle'
+        },
+        {
+            field: 'section',
             title: 'Sector',
             valign: 'middle',
             align: 'center',
-          },
-          {
-            field: 'codigo',
+            customDisplay(row, field, store) {
+                if (field) {
+                    return `${field['nombre']}`;
+                }
+            }
+        },
+        {
+            field: 'section',
             title: 'Codigo',
             valign: 'middle',
             align: 'center',
-            class: 'hide'
-          },
-          {
-            field: 'ip',
+            customDisplay(row, field, store) {
+                if (field) {
+                    return `${field['codigo_area']}`;
+                }
+            }
+        },
+        {
+            field: 'section',
             title: 'Direccion IP',
             valign: 'middle',
-            align: 'center'
-          },
-          {
+            align: 'center',
+            customDisplay(row, field, store) {
+                if (field) {
+                    return `${field['base_ip']}${field['codigo_area']}.${row['codigo_final']}`;
+                }
+            }
+        },
+        {
             field: 'estado',
             title: 'Estado',
             valign: 'middle',
             align: 'center'
-          },
-          {
-            field: 'acciones',
-            title: 'Acciones',
-            valign: 'middle',
-            align: 'center'
-          },
+        }
         ];
       }
     }

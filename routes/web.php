@@ -22,7 +22,10 @@ Route::apiResources([
     'ip' => 'IpController',
     // Management
     'client' => 'ClientController',
+    'contract' => 'ContractController',
 ]);
+
+Route::get('/section/ips/{id}', 'SectionController@ips');
 
 // utils
 Route::get('/currentuser', function (Request $request) {

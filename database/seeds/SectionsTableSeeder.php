@@ -12,7 +12,14 @@ class SectionsTableSeeder extends Seeder
     public function run()
     {
         factory(App\Section::class, 3)->create()->each(function ($u) {
-            $u->ips()->save(factory(App\Ip::class)->make());
+            for ($i = 0; $i < 255; $i++) {
+                $ip = App\Ip::create([
+                    "id_seccion" => $u->id,
+                    "codigo_final" => $i,
+                    "estado" => 1,
+                ]);
+                $u->ips()->save($ip)->make();
+            }
         });
     }
 }

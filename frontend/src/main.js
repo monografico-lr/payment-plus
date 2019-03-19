@@ -1,11 +1,11 @@
 import './bootstrap';
-import './sass/app.scss';
-import './plugins/element.js'
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
 import Login from './views/login/Login.vue';
+import './sass/app.scss';
+import './plugins/element.js'
 
 Vue.config.productionTip = false;
 

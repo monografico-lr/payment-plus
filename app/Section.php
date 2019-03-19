@@ -12,6 +12,6 @@ class Section extends Model
 
     public function ips()
     {
-        return $this->hasMany('App\Ip');
+        return $this->hasMany('App\Ip', 'id_seccion');
     }
 }

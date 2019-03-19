@@ -8,14 +8,27 @@
             @current-change="handleCurrentChange"
             header-row-class-name="insane-table__header"
             style="width: 100%">
-            <el-table-column 
-                v-for="col in cols"
-                :key="col.field"
-                :type="col.type"
-                :index="index"
-                :label="col.title"
-                :property="col.field">
-            </el-table-column>
+            <template v-for="(col, colIndex) in cols">
+                <el-table-column
+                    v-if="!col.customDisplay"
+                    :key="`${col.field}-${colIndex}`"
+                    :type="col.type"
+                    :index="index"
+                    :label="col.title"
+                    :property="col.field">
+                </el-table-column>
+
+                <el-table-column v-if="col.customDisplay"
+                    :key="`${col.field}-${colIndex}`"
+                    :type="col.type"
+                    :label="col.title"
+                    :property="col.field">
+                    <div  slot-scope="scope"  v-html="getHTMLText(scope.row, scope.column, col)">
+
+                    </div>
+                </el-table-column>
+            </template>
+
         </el-table>
 
         <div class="block">
@@ -68,25 +81,30 @@ export default {
     watch: {
       search() {
         this.customSearch();
+      },
+      'options.endpoint'() {
+        this.getData();
       }
-    },  
+    },
     mounted() {
         this.getData();
     },
     methods: {
       getData(page = 1, query) {
-        page = page || this.pagination.page;
-        const pageSize = this.pagination.pageSize || 50;
-        const search = query ? `search=${query}&` : '';
+        if (this.options.endpoint) {
+          page = page || this.pagination.page;
+          const pageSize = this.pagination.pageSize || 50;
+          const search = query ? `search=${query}&` : '';
 
-        this.$http.get(`${this.options.endpoint}?${search}page=${page}&limit=${pageSize}`)
-          .then((res) => {
-            this.data = res.data.data;
-            this.pagination.page = res.data.current_page;
-            this.pagination.lastPage = res.data.last_page;
-            this.pagination.pageSize = Number(res.data.per_page);
-            this.pagination.total = res.data.total;
-          });
+          this.$http.get(`${this.options.endpoint}?${search}page=${page}&limit=${pageSize}`)
+            .then((res) => {
+              this.data = res.data.data;
+              this.pagination.page = res.data.current_page;
+              this.pagination.lastPage = res.data.last_page;
+              this.pagination.pageSize = Number(res.data.per_page);
+              this.pagination.total = res.data.total;
+            });
+        }
       },
 
       handleCurrentChange(val) {
@@ -107,8 +125,27 @@ export default {
 
       index(index) {
         index += 1;
-        return this.pagination.page * this.pagination.pageSize - this.pagination.pageSize + index
-      }
+        return this.pagination.page * this.pagination.pageSize - this.pagination.pageSize + index;
+      },
+
+        getHTMLText(row, field, cell) {
+            const fieldValue =  row[cell.field]
+
+            if (cell.customDisplay) {
+                return cell.customDisplay(row, fieldValue, cell);
+            } else if (cell.status) {
+                let status = cell.statusCodes[row[cell.field]];
+                if (!status) {
+                    status = {
+                        label: 'N/D',
+                        class: 'primary'
+                    }
+                }
+                return `<label class="label label-${status.class}"> ${status.label} </label>`
+            } else {
+                return `${field}`
+            }
+        },
     }
 }
 </script>
