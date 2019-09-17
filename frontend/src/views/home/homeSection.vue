@@ -65,22 +65,45 @@ export default {
         day: '',
         monthYear: '',
         dayWeek: '',
-        hour: ''
+        hour: '',
       },
-      appStore: this.$root.store
+      appStore: this.$root.store,
     };
   },
 
   methods: {
     getDate() {
       const self = this;
-      const days = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-      const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      const days = [
+        'Domingo',
+        'Lunes',
+        'Martes',
+        'Miercoles',
+        'Jueves',
+        'Viernes',
+        'Sabado',
+      ];
+      const months = [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre',
+      ];
 
       function updateHour() {
         const date = new Date();
         self.date.day = date.getDate();
-        self.date.monthYear = `De ${months[date.getMonth()]} de ${date.getFullYear()}`;
+        self.date.monthYear = `De ${
+          months[date.getMonth()]
+        } de ${date.getFullYear()}`;
         self.date.dayWeek = days[date.getDay()];
         self.date.hour = date.toLocaleTimeString();
       }
@@ -90,7 +113,7 @@ export default {
 
     sendTo(url) {
       this.$router.push({ path: url });
-    }
+    },
   },
 
   computed: {
@@ -100,7 +123,7 @@ export default {
     logo() {
       const logo = this.$store.state.company.logo || 'company/default.png';
       return `assets/uploads/${logo}`;
-    }
+    },
   },
 };
 </script>

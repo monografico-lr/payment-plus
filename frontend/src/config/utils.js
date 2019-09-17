@@ -1,4 +1,4 @@
-import $ from'jquery';
+import $ from 'jquery';
 import moment from 'moment';
 import 'moment/locale/es-do';
 
@@ -10,11 +10,11 @@ export default {
     } else {
       const keys = Object.keys(values);
       props = [];
-      keys.forEach((key) => {
+      keys.forEach(key => {
         props.push(values[key]);
       });
     }
-    return props.some(val => (val == null || val === ''));
+    return props.some(val => val == null || val === '');
   },
 
   fromCurrency(num) {
@@ -30,17 +30,29 @@ export default {
     number = parseFloat(number);
     const sign = number < 0 ? '-' : '';
     let formatted = String(number.toFixed(decimalplaces));
-    if (decimalcharacter.length && decimalcharacter !== '.') { formatted = formatted.replace(/\./, decimalcharacter); }
+    if (decimalcharacter.length && decimalcharacter !== '.') {
+      formatted = formatted.replace(/\./, decimalcharacter);
+    }
     let integer = '';
     let fraction = '';
     const strnumber = String(formatted);
-    const dotpos = decimalcharacter.length ? strnumber.indexOf(decimalcharacter) : -1;
+    const dotpos = decimalcharacter.length
+      ? strnumber.indexOf(decimalcharacter)
+      : -1;
     if (dotpos > -1) {
-      if (dotpos) { integer = strnumber.substr(0, dotpos); }
+      if (dotpos) {
+        integer = strnumber.substr(0, dotpos);
+      }
       fraction = strnumber.substr(dotpos + 1);
-    } else { integer = strnumber; }
-    if (integer) { integer = String(Math.abs(integer)); }
-    while (fraction.length < decimalplaces) { fraction += '0'; }
+    } else {
+      integer = strnumber;
+    }
+    if (integer) {
+      integer = String(Math.abs(integer));
+    }
+    while (fraction.length < decimalplaces) {
+      fraction += '0';
+    }
     const temparray = [];
     while (integer.length > 3) {
       temparray.unshift(integer.substr(-3));
@@ -57,9 +69,13 @@ export default {
 
   startInputMask(InputMask) {
     const TelSelector = document.querySelectorAll('[type="tel"]');
-    const dniSelector = document.querySelectorAll('[role="cedula"], [id*="dni"]');
+    const dniSelector = document.querySelectorAll(
+      '[role="cedula"], [id*="dni"]'
+    );
     InputMask({ mask: '(999) 999-9999', greede: false }).mask(TelSelector);
-    InputMask({ mask: '**[*]-*******-[*][*{1,20}]', greede: false }).mask(dniSelector);
+    InputMask({ mask: '**[*]-*******-[*][*{1,20}]', greede: false }).mask(
+      dniSelector
+    );
   },
 
   // values: array
@@ -71,12 +87,12 @@ export default {
     } else {
       const keys = Object.keys(values);
       numbers = [];
-      keys.forEach((key) => {
+      keys.forEach(key => {
         numbers.push(values[key]);
       });
     }
 
-    return numbers.reduce((sum, number) => sum += parseFloat(number), 0);
+    return numbers.reduce((sum, number) => (sum += parseFloat(number)), 0);
   },
 
   now() {
@@ -94,7 +110,7 @@ export default {
     return {
       day,
       monthYear,
-      dayWeek
+      dayWeek,
     };
   },
 
@@ -104,7 +120,9 @@ export default {
       const movableNav = $('.aside-nav-container, .aside-wide-left');
       const width = window.innerWidth;
       if (position >= 50 && width > 768) {
-        if (!movableNav.hasClass('moved')) { movableNav.addClass('moved'); }
+        if (!movableNav.hasClass('moved')) {
+          movableNav.addClass('moved');
+        }
       } else {
         movableNav.removeClass('moved');
       }
@@ -112,8 +130,28 @@ export default {
   },
 
   dates: {
-    months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-    days: ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado']
-  }
-
+    months: [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre',
+    ],
+    days: [
+      'Domingo',
+      'Lunes',
+      'Martes',
+      'Miercoles',
+      'Jueves',
+      'Viernes',
+      'Sabado',
+    ],
+  },
 };

@@ -3,7 +3,7 @@ import axios from 'axios';
 export default class Service {
   constructor() {
     this.user = axios.create({
-      baseURL: '/'
+      baseURL: '/',
     });
   }
 

@@ -6,38 +6,38 @@ export default class ClientStore {
         title: 'No.',
         align: 'center',
         type: 'index',
-        valign: 'middle'
-    },
+        valign: 'middle',
+      },
       {
         field: 'nombres',
         title: 'Nombres',
         align: 'center',
-        valign:	'middle'
+        valign: 'middle',
       },
       {
         field: 'apellidos',
         title: 'Apellidos',
         align: 'center',
-        valign:	'middle'
+        valign: 'middle',
       },
       {
         field: 'cedula',
         title: 'Cedula',
         align: 'center',
-        valign:	'middle'
+        valign: 'middle',
       },
       {
         field: 'celular',
         title: 'Celular',
         align: 'center',
-        valign:	'middle'
+        valign: 'middle',
       },
       {
         field: 'estado',
         title: 'Estado',
         align: 'left',
-        valign:	'middle'
-      }
+        valign: 'middle',
+      },
     ];
     this.clientMode = 'add';
     this.client = {
@@ -54,7 +54,7 @@ export default class ClientStore {
       telefono: '',
       lugar_trabajo: '',
       telefono_trabajo: '',
-      ingresos: 0
+      ingresos: 0,
     };
   }
 
@@ -81,7 +81,7 @@ export default class ClientStore {
       telefono: '',
       lugar_trabajo: '',
       telefono_trabajo: '',
-      ingresos: 0
+      ingresos: 0,
     };
   }
 }

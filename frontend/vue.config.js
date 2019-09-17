@@ -1,4 +1,4 @@
-const env = require('./.env.js')
+const env = require('./.env.js');
 module.exports = {
   // proxy API requests to Valet during development
   devServer: {

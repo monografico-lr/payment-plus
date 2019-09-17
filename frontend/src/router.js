@@ -1,34 +1,17 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Home from './views/home/homeSection.vue';
-import Services from './views/service/ServiceSection.vue';
-import Routers from './views/router/RouterSection.vue';
-import Clients from './views/clients/ClientSection.vue';
+import Home from './views/Home.vue';
 
 Vue.use(Router);
 
 export default new Router({
   mode: 'history',
+  base: process.env.BASE_URL,
   routes: [
     {
       path: '/',
       name: 'home',
       component: Home,
-    },
-    {
-      path: '/servicios',
-      name: 'services',
-      component: Services,
-    },
-    {
-      path: '/secciones',
-      name: 'routers',
-      component: Routers,
-    },
-    {
-      path: '/clientes',
-      name: 'clients',
-      component: Clients,
     },
     {
       path: '/about',

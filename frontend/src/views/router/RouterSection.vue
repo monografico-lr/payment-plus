@@ -29,206 +29,211 @@
 </template>
 
 <script>
-  import RouterModal from './components/RouterModal.vue';
-  import utils from './../../config/utils';
-  import DataTable from './../../components/DataTable.vue';
-  import CustomTable from './../../components/CustomTable.vue';
+import RouterModal from './components/RouterModal.vue';
+import utils from './../../config/utils';
+import DataTable from './../../components/DataTable.vue';
+import CustomTable from './../../components/CustomTable.vue';
 //   import Progress from './../sharedComponents/Progress';
 
 //   const heavyLoad = new Progress('heavy');
 
-  export default {
-    components: {
-      RouterModal,
-      CustomTable
-    },
-    mounted() {
-      utils.spyLeftNavigation();
-      this.getSectionList();
-    },
-    data() {
-      return {
-        title: 'Secciones',
-        parentId: '#extra-table-container',
-        toolbar: '#extra-toolbar',
-        content: '',
-        selectedId: '',
-        modalMode: 'add',
-        options: [
-          { key: 'todo', text: 'Todos' },
-          { key: 'ocupado', text: 'Ocupadas' },
-          { key: 'disponible', text: 'Disponibles' },
-          { key: 'sectorial', text: 'Sectoriales' }
-        ],
-        sections: [],
-        sector: {
-          nombre: '',
-          codigo_area: ''
-        },
-        tableOptions: {
-          pageSize: 50,
-          pageList: [50, 100, 200, 500, 1000],
-          states: ['ocupado', 'disponible', 'sectorial'],
-          stateField: 'estado',
-          endpoint: ''
-        },
-        search: {
-          text: '',
-          state: 'activo'
-        },
-        totales: {
-          pagado: 0,
-          pendiente: 0,
-          total_vendido: 0
-        },
-        tableId: '#extra-table-full'
-      };
-    },
-    methods: {
-      save() {
-        const empty = utils.isEmpty(this.sector);
-        const method = this.modalMode == 'add' ? 'post' : 'put';
-
-        if (!empty) {
-          //heavyLoad.play();
-          this.$http[method](`/section`, this.sector)
-            .then((res) => {
-              this.$toasted.success('Sector creado');
-              this.sectorEmpty();
-              $('#router-modal').modal('hide');
-              this.getSectionList();
-              //heavyLoad.stop();
-              this.getIps();
-            })
-
-            .catch((err) => {
-            //  heavyLoad.stop();
-              this.$toasted.error(err);
-            });
-        } else {
-          this.$toasted.error('Revise y LLene todos los campos por favor');
-        }
+export default {
+  components: {
+    RouterModal,
+    CustomTable,
+  },
+  mounted() {
+    utils.spyLeftNavigation();
+    this.getSectionList();
+  },
+  data() {
+    return {
+      title: 'Secciones',
+      parentId: '#extra-table-container',
+      toolbar: '#extra-toolbar',
+      content: '',
+      selectedId: '',
+      modalMode: 'add',
+      options: [
+        { key: 'todo', text: 'Todos' },
+        { key: 'ocupado', text: 'Ocupadas' },
+        { key: 'disponible', text: 'Disponibles' },
+        { key: 'sectorial', text: 'Sectoriales' },
+      ],
+      sections: [],
+      sector: {
+        nombre: '',
+        codigo_area: '',
       },
-
-      getIps() {
-        this.tableOptions.endpoint = `/section/ips/${this.selectedId}`;
+      tableOptions: {
+        pageSize: 50,
+        pageList: [50, 100, 200, 500, 1000],
+        states: ['ocupado', 'disponible', 'sectorial'],
+        stateField: 'estado',
+        endpoint: '',
       },
-
-      updateIpState(IP) {
-        const form = `data=${JSON.stringify(IP)}&extra_info=${JSON.stringify({
-          module: 'ip'
-        })}`;
-        this.send('axiosupdate', form)
-          .then((res) => {
-            displayMessage(res.data.mensaje);
-          });
+      search: {
+        text: '',
+        state: 'activo',
       },
-
-      sectorEmpty() {
-        this.sector = {
-          nombre: '',
-          codigo_area: ''
-        };
+      totales: {
+        pagado: 0,
+        pendiente: 0,
+        total_vendido: 0,
       },
+      tableId: '#extra-table-full',
+    };
+  },
+  methods: {
+    save() {
+      const empty = utils.isEmpty(this.sector);
+      const method = this.modalMode == 'add' ? 'post' : 'put';
 
-      getSectionList() {
-        this.$http.get('/section')
-          .then((res) => {
-            this.sections = res.data.data;
-            this.selectedId = this.sections[0].id;
+      if (!empty) {
+        //heavyLoad.play();
+        this.$http[method](`/section`, this.sector)
+          .then(res => {
+            this.$toasted.success('Sector creado');
+            this.sectorEmpty();
+            $('#router-modal').modal('hide');
+            this.getSectionList();
+            //heavyLoad.stop();
             this.getIps();
-          });
-      },
-
-      updateState(code, state) {
-        this.$http.post('section/update_ip', this.getDataForm({ code, state }))
-          .then((res) => {
-            this.getIps();
-            this.showMessage(res.data.message);
           })
-          .catch((err) => {
+
+          .catch(err => {
+            //  heavyLoad.stop();
             this.$toasted.error(err);
           });
-      },
-
-      stateChanges(name, args) {
-        const self = this;
-        const { options } = this;
-        const theOptions = options.map(option => ((option.key !== 'todo') ? `<option value='${option.key}'> ${option.key}</value>` : ''));
-        const selectState = `<select>${theOptions.join('')}</select>`;
-        const select = $(selectState);
-        const $this = args[3];
-        const row = args[2];
-        let state = args[1];
-
-        $this.html(select);
-        select.focus();
-        select.val(state);
-        select.on('change blur', () => {
-          state = select.val();
-          $this.html(state);
-          $this.removeClass('text-danger text-success text-primary');
-          self.updateState(row.codigo, state);
-        });
-        select.on('click', (event) => {
-          event.stopImmediatePropagation();
-        });
+      } else {
+        this.$toasted.error('Revise y LLene todos los campos por favor');
       }
     },
-    computed: {
-      reportUrl() {
-        return `/section/report/${this.selectedId}`;
-      },
-      cols() {
-        return [
+
+    getIps() {
+      this.tableOptions.endpoint = `/section/ips/${this.selectedId}`;
+    },
+
+    updateIpState(IP) {
+      const form = `data=${JSON.stringify(IP)}&extra_info=${JSON.stringify({
+        module: 'ip',
+      })}`;
+      this.send('axiosupdate', form).then(res => {
+        displayMessage(res.data.mensaje);
+      });
+    },
+
+    sectorEmpty() {
+      this.sector = {
+        nombre: '',
+        codigo_area: '',
+      };
+    },
+
+    getSectionList() {
+      this.$http.get('/section').then(res => {
+        this.sections = res.data.data;
+        this.selectedId = this.sections[0].id;
+        this.getIps();
+      });
+    },
+
+    updateState(code, state) {
+      this.$http
+        .post('section/update_ip', this.getDataForm({ code, state }))
+        .then(res => {
+          this.getIps();
+          this.showMessage(res.data.message);
+        })
+        .catch(err => {
+          this.$toasted.error(err);
+        });
+    },
+
+    stateChanges(name, args) {
+      const self = this;
+      const { options } = this;
+      const theOptions = options.map(option =>
+        option.key !== 'todo'
+          ? `<option value='${option.key}'> ${option.key}</value>`
+          : ''
+      );
+      const selectState = `<select>${theOptions.join('')}</select>`;
+      const select = $(selectState);
+      const $this = args[3];
+      const row = args[2];
+      let state = args[1];
+
+      $this.html(select);
+      select.focus();
+      select.val(state);
+      select.on('change blur', () => {
+        state = select.val();
+        $this.html(state);
+        $this.removeClass('text-danger text-success text-primary');
+        self.updateState(row.codigo, state);
+      });
+      select.on('click', event => {
+        event.stopImmediatePropagation();
+      });
+    },
+  },
+  computed: {
+    reportUrl() {
+      return `/section/report/${this.selectedId}`;
+    },
+    cols() {
+      return [
         {
-            field: 'orden',
-            title: 'No.',
-            align: 'center',
-            type: 'index',
-            valign: 'middle'
+          field: 'orden',
+          title: 'No.',
+          align: 'center',
+          type: 'index',
+          valign: 'middle',
         },
         {
-            field: 'section',
-            title: 'Sector',
-            valign: 'middle',
-            align: 'center',
-            customDisplay(row, field, store) {
-                if (field) {
-                    return `${field['nombre']}`;
-                }
+          field: 'section',
+          title: 'Sector',
+          valign: 'middle',
+          align: 'center',
+          customDisplay(row, field, store) {
+            if (field) {
+              return `${field['nombre']}`;
             }
+          },
         },
         {
-            field: 'section',
-            title: 'Codigo',
-            valign: 'middle',
-            align: 'center',
-            customDisplay(row, field, store) {
-                if (field) {
-                    return `${field['codigo_area']}`;
-                }
+          field: 'section',
+          title: 'Codigo',
+          valign: 'middle',
+          align: 'center',
+          customDisplay(row, field, store) {
+            if (field) {
+              return `${field['codigo_area']}`;
             }
+          },
         },
         {
-            field: 'section',
-            title: 'Direccion IP',
-            valign: 'middle',
-            align: 'center',
-            customDisplay(row, field, store) {
-                if (field) {
-                    return `${field['base_ip']}${field['codigo_area']}.${row['codigo_final']}`;
-                }
+          field: 'section',
+          title: 'Direccion IP',
+          valign: 'middle',
+          align: 'center',
+          customDisplay(row, field, store) {
+            if (field) {
+              return `${field['base_ip']}${field['codigo_area']}.${
+                row['codigo_final']
+              }`;
             }
+          },
         },
         {
-            field: 'estado',
-            title: 'Estado',
-            valign: 'middle',
-            align: 'center'
-        }
-        ];
-      }
-    }
-  };
+          field: 'estado',
+          title: 'Estado',
+          valign: 'middle',
+          align: 'center',
+        },
+      ];
+    },
+  },
+};
 </script>

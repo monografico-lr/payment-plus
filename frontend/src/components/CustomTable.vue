@@ -1,153 +1,165 @@
 <template>
-    <div class="bootstrap-table">
-        <el-table
-            ref="singleTable"
-            :data="data"
-            :stripe="true"
-            highlight-current-row
-            @current-change="handleCurrentChange"
-            header-row-class-name="insane-table__header"
-            style="width: 100%">
-            <template v-for="(col, colIndex) in cols">
-                <el-table-column
-                    v-if="!col.customDisplay"
-                    :key="`${col.field}-${colIndex}`"
-                    :type="col.type"
-                    :index="index"
-                    :label="col.title"
-                    :property="col.field">
-                </el-table-column>
+  <div class="bootstrap-table">
+    <el-table
+      ref="singleTable"
+      :data="data"
+      :stripe="true"
+      highlight-current-row
+      @current-change="handleCurrentChange"
+      header-row-class-name="insane-table__header"
+      style="width: 100%"
+    >
+      <template v-for="(col, colIndex) in cols">
+        <el-table-column
+          v-if="!col.customDisplay"
+          :key="`${col.field}-${colIndex}`"
+          :type="col.type"
+          :index="index"
+          :label="col.title"
+          :property="col.field"
+        >
+        </el-table-column>
 
-                <el-table-column v-if="col.customDisplay"
-                    :key="`${col.field}-${colIndex}`"
-                    :type="col.type"
-                    :label="col.title"
-                    :property="col.field">
-                    <div  slot-scope="scope"  v-html="getHTMLText(scope.row, scope.column, col)">
+        <el-table-column
+          v-if="col.customDisplay"
+          :key="`${col.field}-${colIndex}`"
+          :type="col.type"
+          :label="col.title"
+          :property="col.field"
+        >
+          <div
+            slot-scope="scope"
+            v-html="getHTMLText(scope.row, scope.column, col)"
+          ></div>
+        </el-table-column>
+      </template>
+    </el-table>
 
-                    </div>
-                </el-table-column>
-            </template>
-
-        </el-table>
-
-        <div class="block">
-            <el-pagination
-                @size-change="pageSizeChanged"
-                @current-change="paginate"
-                :current-page.sync="pagination.page"
-                :page-sizes="options.pageList"
-                :page-size="pagination.pageSize"
-                layout="total, sizes, prev, pager, next"
-                :total="pagination.total">
-            </el-pagination>
-        </div>
+    <div class="block">
+      <el-pagination
+        @size-change="pageSizeChanged"
+        @current-change="paginate"
+        :current-page.sync="pagination.page"
+        :page-sizes="options.pageList"
+        :page-size="pagination.pageSize"
+        layout="total, sizes, prev, pager, next"
+        :total="pagination.total"
+      >
+      </el-pagination>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'custom-table',
-    props: {
-      cols: {
-        type: Array
-      },
-      options: {
-        type: Object
-      },
-      ids: {
-        type: String
-      },
-      parentId: {
-        type: String
-      },
-      toolbar: {
-        type: String
-      },
-      search: String
+  name: 'custom-table',
+  props: {
+    cols: {
+      type: Array,
     },
-    data() {
-        return {
-            currentRow: null,
-            data: [],
-            pagination: {
-                page: 1,
-                lastPage: 0,
-                pageSize: this.options.pageSize,
-                total: 0
-            }
-        }
+    options: {
+      type: Object,
     },
-    watch: {
-      search() {
-        this.customSearch();
+    ids: {
+      type: String,
+    },
+    parentId: {
+      type: String,
+    },
+    toolbar: {
+      type: String,
+    },
+    search: String,
+  },
+  data() {
+    return {
+      currentRow: null,
+      data: [],
+      pagination: {
+        page: 1,
+        lastPage: 0,
+        pageSize: this.options.pageSize,
+        total: 0,
       },
-      'options.endpoint'() {
-        this.getData();
+    };
+  },
+  watch: {
+    search() {
+      this.customSearch();
+    },
+    'options.endpoint'() {
+      this.getData();
+    },
+  },
+  mounted() {
+    this.getData();
+  },
+  methods: {
+    getData(page = 1, query) {
+      if (this.options.endpoint) {
+        page = page || this.pagination.page;
+        const pageSize = this.pagination.pageSize || 50;
+        const search = query ? `search=${query}&` : '';
+
+        this.$http
+          .get(
+            `${this.options.endpoint}?${search}page=${page}&limit=${pageSize}`
+          )
+          .then(res => {
+            this.data = res.data.data;
+            this.pagination.page = res.data.current_page;
+            this.pagination.lastPage = res.data.last_page;
+            this.pagination.pageSize = Number(res.data.per_page);
+            this.pagination.total = res.data.total;
+          });
       }
     },
-    mounted() {
-        this.getData();
+
+    handleCurrentChange(val) {
+      this.currentRow = val;
     },
-    methods: {
-      getData(page = 1, query) {
-        if (this.options.endpoint) {
-          page = page || this.pagination.page;
-          const pageSize = this.pagination.pageSize || 50;
-          const search = query ? `search=${query}&` : '';
+    pageSizeChanged(pageSize) {
+      this.pagination.pageSize = pageSize;
+      this.getData();
+    },
+    paginate(page) {
+      this.pagination.page = page;
+      this.getData(page);
+    },
 
-          this.$http.get(`${this.options.endpoint}?${search}page=${page}&limit=${pageSize}`)
-            .then((res) => {
-              this.data = res.data.data;
-              this.pagination.page = res.data.current_page;
-              this.pagination.lastPage = res.data.last_page;
-              this.pagination.pageSize = Number(res.data.per_page);
-              this.pagination.total = res.data.total;
-            });
+    customSearch() {
+      this.getData(1, this.search);
+    },
+
+    index(index) {
+      index += 1;
+      return (
+        this.pagination.page * this.pagination.pageSize -
+        this.pagination.pageSize +
+        index
+      );
+    },
+
+    getHTMLText(row, field, cell) {
+      const fieldValue = row[cell.field];
+
+      if (cell.customDisplay) {
+        return cell.customDisplay(row, fieldValue, cell);
+      } else if (cell.status) {
+        let status = cell.statusCodes[row[cell.field]];
+        if (!status) {
+          status = {
+            label: 'N/D',
+            class: 'primary',
+          };
         }
-      },
-
-      handleCurrentChange(val) {
-        this.currentRow = val;
-      },
-      pageSizeChanged(pageSize) {
-        this.pagination.pageSize = pageSize;
-        this.getData();
-      },
-      paginate(page) {
-        this.pagination.page = page;
-        this.getData(page);
-      },
-
-      customSearch() {
-        this.getData(1, this.search)
-      },
-
-      index(index) {
-        index += 1;
-        return this.pagination.page * this.pagination.pageSize - this.pagination.pageSize + index;
-      },
-
-        getHTMLText(row, field, cell) {
-            const fieldValue =  row[cell.field]
-
-            if (cell.customDisplay) {
-                return cell.customDisplay(row, fieldValue, cell);
-            } else if (cell.status) {
-                let status = cell.statusCodes[row[cell.field]];
-                if (!status) {
-                    status = {
-                        label: 'N/D',
-                        class: 'primary'
-                    }
-                }
-                return `<label class="label label-${status.class}"> ${status.label} </label>`
-            } else {
-                return `${field}`
-            }
-        },
-    }
-}
+        return `<label class="label label-${status.class}"> ${status.label} </label>`;
+      } else {
+        return `${field}`;
+      }
+    },
+  },
+};
 </script>
 
 <style lang="sass">
@@ -361,6 +373,4 @@ ul.pagination
   margin-right: 0
   margin-top: 0
   width: 100%
-
 </style>
-

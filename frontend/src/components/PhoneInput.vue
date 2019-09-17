@@ -3,40 +3,33 @@
 </template>
 
 <script>
-  import InputMask from 'inputmask';
-  import utils from '@/config/utils';
+import InputMask from 'inputmask';
+import utils from '@/config/utils';
 
-  export default {
-    props: [
-      'classes',
-      'value',
-      'ids',
-      'types',
-      'data'
-    ],
+export default {
+  props: ['classes', 'value', 'ids', 'types', 'data'],
 
-    mounted() {
-      this.initMask();
+  mounted() {
+    this.initMask();
+  },
+
+  methods: {
+    updateValue(e) {
+      const unmask = this.getVal(e.target);
+      this.$emit('change', { key: this.data, value: unmask });
     },
 
-    methods: {
-      updateValue(e) {
-        const unmask = this.getVal(e.target);
-        this.$emit('change', { key: this.data, value: unmask });
-      },
+    initMask() {
+      utils.startInputMask(InputMask);
+    },
 
-      initMask() {
-        utils.startInputMask(InputMask);
-      },
+    getVal(element) {
+      return element.inputmask.unmaskedvalue();
+    },
 
-      getVal(element) {
-        return element.inputmask.unmaskedvalue();
-      },
-
-      isComplete(element) {
-        return element.inputmask.isComplete();
-      }
-    }
-  };
+    isComplete(element) {
+      return element.inputmask.isComplete();
+    },
+  },
+};
 </script>
-

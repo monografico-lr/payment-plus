@@ -6,31 +6,31 @@ export default class ServiceStore {
         title: 'No.',
         align: 'center',
         type: 'index',
-        valign: 'middle'
+        valign: 'middle',
       },
       {
         field: 'nombre',
         title: 'Nombre',
         align: 'center',
-        valign: 'middle'
+        valign: 'middle',
       },
       {
         field: 'descripcion',
         title: 'Descripción',
         align: 'center',
-        valign: 'middle'
+        valign: 'middle',
       },
       {
         field: 'mensualidad',
         title: 'Mensualidad(o Precio)',
         align: 'center',
-        valign: 'middle'
+        valign: 'middle',
       },
       {
         field: 'tipo',
         title: 'Tipo',
         align: 'center',
-        valign: 'middle'
+        valign: 'middle',
       },
     ];
 

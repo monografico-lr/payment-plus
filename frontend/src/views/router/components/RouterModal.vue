@@ -22,45 +22,45 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      sector: {
-        type: Object
-      },
-      modalMode: {
-        type: String
-      }
+export default {
+  props: {
+    sector: {
+      type: Object,
     },
-
-    mounted() {
-      $('#router-modal').on('hide.bs.modal', () => {
-        this.$emit('dimiss');
-      });
+    modalMode: {
+      type: String,
     },
+  },
 
-    methods: {
-      save() {
-        this.$emit('save');
-      }
+  mounted() {
+    $('#router-modal').on('hide.bs.modal', () => {
+      this.$emit('dimiss');
+    });
+  },
+
+  methods: {
+    save() {
+      this.$emit('save');
     },
+  },
 
-    computed: {
-      modalTitle() {
-        let title;
+  computed: {
+    modalTitle() {
+      let title;
 
-        switch (this.modalMode) {
-          case 'add':
-            title = 'Nuevo Sector';
-            break;
-          case 'edit':
-            title = 'Editar Sector';
-            break;
-          default:
+      switch (this.modalMode) {
+        case 'add':
+          title = 'Nuevo Sector';
+          break;
+        case 'edit':
+          title = 'Editar Sector';
+          break;
+        default:
           // nothing
-            break;
-        }
-        return title;
+          break;
       }
-    }
-  };
+      return title;
+    },
+  },
+};
 </script>

@@ -14,15 +14,14 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      item: Object
+export default {
+  props: {
+    item: Object,
+  },
+  computed: {
+    link() {
+      return `/detalles/${this.item.id_cliente}/`;
     },
-    computed: {
-      link() {
-        return `/detalles/${this.item.id_cliente}/`;
-      }
-    }
-  };
+  },
+};
 </script>
-

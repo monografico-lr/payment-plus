@@ -11,34 +11,34 @@
 </template>
 
 <script>
-  import SelectClient from './../../sharedComponents/SelectClient.vue';
-  import ClientStore from './../../clientes/store/clientStore';
+import SelectClient from './../../sharedComponents/SelectClient.vue';
+import ClientStore from './../../clientes/store/clientStore';
 
-  export default {
-    components: {
-      SelectClient
-    },
+export default {
+  components: {
+    SelectClient,
+  },
 
-    data() {
-      const clientStore = new ClientStore();
+  data() {
+    const clientStore = new ClientStore();
 
-      return {
-        searchEndpoint: `${baseURL}/clients/get_clients/dropdown`,
-        tableOptions: {
-          pageSize: 5
-        },
-        clientStore,
-        search: '',
-        placeholder: 'Busque cliente por cedula, nombre, apellidos o id',
-
-        cols: clientStore.columns
-      };
-    },
-
-    methods: {
-      goToClient(data) {
-        window.location.href = `${baseURL}app/details/${data.id}`;
+    return {
+      searchEndpoint: `${baseURL}/clients/get_clients/dropdown`,
+      tableOptions: {
+        pageSize: 5,
       },
-    }
-  };
+      clientStore,
+      search: '',
+      placeholder: 'Busque cliente por cedula, nombre, apellidos o id',
+
+      cols: clientStore.columns,
+    };
+  },
+
+  methods: {
+    goToClient(data) {
+      window.location.href = `${baseURL}app/details/${data.id}`;
+    },
+  },
+};
 </script>

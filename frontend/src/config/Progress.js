@@ -20,7 +20,7 @@ export default class Progress {
       $('body').css({ overflow: 'hidden' });
     } else {
       $('.loader').css({
-        display: 'block'
+        display: 'block',
       });
     }
   }

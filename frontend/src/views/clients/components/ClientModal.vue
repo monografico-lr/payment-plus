@@ -95,93 +95,95 @@
 </template>
 
 <script>
-  import PhoneInput from '../../../components/PhoneInput.vue';
-  import utils from '@/config/utils';
+import PhoneInput from '../../../components/PhoneInput.vue';
+import utils from '@/config/utils';
 
-  export default {
-    components: {
-      PhoneInput
+export default {
+  components: {
+    PhoneInput,
+  },
+  props: {
+    client: {
+      type: Object,
+      required: true,
     },
-    props: {
-      client: {
-        type: Object,
-        required: true,
-      },
-      modalMode: {
-        type: String,
-        required: true
-      },
-      store: {
-        type: Object,
-        required: true
+    modalMode: {
+      type: String,
+      required: true,
+    },
+    store: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  mounted() {
+    $('#client-modal').on('hide.bs.modal', () => {
+      this.$emit('dimiss');
+      this.store.clientEmpty();
+      this.store.setClientMode('add');
+    });
+  },
+
+  methods: {
+    save() {
+      this.addUpdate(this.modalMode);
+    },
+
+    emitChange() {
+      this.$emit('save');
+    },
+
+    inputChange(param) {
+      const current = this.store.client;
+      current[param.key] = param.value;
+      this.store.setClient(current);
+    },
+
+    addUpdate() {
+      const { client } = this.store;
+      const requiredFields = [
+        client.nombres,
+        client.apellidos,
+        client.cedula,
+        client.celular,
+        client.provincia,
+        client.calle,
+        client.sector,
+        client.casa,
+      ];
+      const method = this.store.clientMode == 'add' ? 'post' : 'put';
+      const url = client.id ? `/client/${client.id}` : '/client';
+
+      const empty = utils.isEmpty(requiredFields);
+      debugger;
+
+      if (!empty) {
+        this.$http[method](url, client)
+          .then(res => {
+            this.emitChange();
+            this.$toasted.success('cliente agregado con exito');
+            $('#client-modal').modal('hide');
+          })
+          .catch(err => {
+            this.$toasted.error(err);
+          });
+      } else {
+        this.$toasted.info('LLene todos los campos por favor');
       }
     },
+  },
 
-    mounted() {
-      $('#client-modal').on('hide.bs.modal', () => {
-        this.$emit('dimiss');
-        this.store.clientEmpty();
-        this.store.setClientMode('add');
-      });
+  computed: {
+    modalTitle() {
+      return this.modalMode === 'add'
+        ? 'Nuevo Cliente'
+        : `Editando a ${this.client.nombres}`;
     },
 
-    methods: {
-      save() {
-        this.addUpdate(this.modalMode);
-      },
-
-      emitChange() {
-        this.$emit('save');
-      },
-
-      inputChange(param) {
-        const current = this.store.client;
-        current[param.key] = param.value;
-        this.store.setClient(current);
-      },
-
-      addUpdate() {
-        const { client } = this.store;
-        const requiredFields = [
-          client.nombres,
-          client.apellidos,
-          client.cedula,
-          client.celular,
-          client.provincia,
-          client.calle,
-          client.sector,
-          client.casa,
-        ];
-        const method = this.store.clientMode == 'add' ? 'post' : 'put';
-        const url = client.id ?  `/client/${client.id}` : '/client';
-
-        const empty = utils.isEmpty(requiredFields);
-        debugger;
-
-        if (!empty) {
-          this.$http[method](url, client)
-            .then((res) => {
-              this.emitChange();
-              this.$toasted.success("cliente agregado con exito");
-              $('#client-modal').modal('hide');
-            })
-            .catch((err) => {
-              this.$toasted.error(err);
-            });
-        } else {
-          this.$toasted.info('LLene todos los campos por favor');
-        }
-      },
+    buttonTitle() {
+      return this.modalMode === 'add' ? 'Guardar' : 'Actualizar';
     },
-
-    computed: {
-      modalTitle() {
-        return (this.modalMode === 'add') ? 'Nuevo Cliente' : `Editando a ${this.client.nombres}`;
-      },
-
-      buttonTitle() {
-        return (this.modalMode === 'add') ? 'Guardar' : 'Actualizar';
-      }
-    }
-  };
+  },
+};
 </script>

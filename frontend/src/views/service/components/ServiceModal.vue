@@ -29,63 +29,63 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      service: {
-        type: Object,
-        required: true
-      },
-      modalMode: {
-        type: String,
-        required: true
-      },
-      store: {
-        type: Object,
-        required: true,
-      }
+export default {
+  props: {
+    service: {
+      type: Object,
+      required: true,
     },
-
-    data() {
-      return {
-        options: [
-          { id: 1, text: 'Internet' },
-          { id: 2, text: 'Reparacion' },
-          { id: 3, text: 'Seguro' },
-        ]
-      };
+    modalMode: {
+      type: String,
+      required: true,
     },
-
-    mounted() {
-      $('#service-modal').on('hide.bs.modal', () => {
-        this.store.serviceEmpty();
-        this.store.setServiceMode('add');
-        this.$emit('dimiss');
-      });
+    store: {
+      type: Object,
+      required: true,
     },
+  },
 
-    methods: {
-      save() {
-        this.$emit('save');
-      }
+  data() {
+    return {
+      options: [
+        { id: 1, text: 'Internet' },
+        { id: 2, text: 'Reparacion' },
+        { id: 3, text: 'Seguro' },
+      ],
+    };
+  },
+
+  mounted() {
+    $('#service-modal').on('hide.bs.modal', () => {
+      this.store.serviceEmpty();
+      this.store.setServiceMode('add');
+      this.$emit('dimiss');
+    });
+  },
+
+  methods: {
+    save() {
+      this.$emit('save');
     },
+  },
 
-    computed: {
-      modalTitle() {
-        let title;
+  computed: {
+    modalTitle() {
+      let title;
 
-        switch (this.modalMode) {
-          case 'add':
-            title = 'Nuevo Servicio';
-            break;
-          case 'edit':
-            title = `Editar ${service.nombre}`;
-            break;
-          default:
+      switch (this.modalMode) {
+        case 'add':
+          title = 'Nuevo Servicio';
+          break;
+        case 'edit':
+          title = `Editar ${service.nombre}`;
+          break;
+        default:
           // nothing
-            break;
-        }
-        return title;
+          break;
       }
-    }
-  };
+      return title;
+    },
+  },
+};
 </script>

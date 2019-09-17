@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const $http = axios.create({
-  baseURL: '/'
+  baseURL: '/',
 });
 export default class serviceService {
   constructor() {
@@ -13,7 +13,6 @@ export default class serviceService {
   }
 
   getService(id) {
-    return this.$http.post(`/service/${id}`)
-      .then(res => res.data);
+    return this.$http.post(`/service/${id}`).then(res => res.data);
   }
 }
